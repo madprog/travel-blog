@@ -5,7 +5,8 @@
   "main": "src/main.js",
   "scripts": {
     "compile": "webpack",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "serve": "node server.js"
   },
   "keywords": [],
   "author": "Paul Morelle <madprog@htkc.org>",
@@ -16,5 +17,9 @@
     "babel-preset-latest": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "webpack": "^3.0.0"
+  },
+  "devDependencies": {
+    "express": "^4.15.3",
+    "webpack-dev-middleware": "^1.11.0"
   }
 }
