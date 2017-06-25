@@ -5,7 +5,7 @@
   "main": "src/main.js",
   "scripts": {
     "compile": "webpack",
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "serve": "node server.js"
   },
   "keywords": [],
@@ -14,6 +14,7 @@
   "dependencies": {
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.0",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-preset-latest": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "react": "^15.6.1",
@@ -21,11 +22,25 @@
     "react-redux": "^5.0.5",
     "reduce-reducers": "^0.1.2",
     "redux": "^3.7.0",
+    "redux-promise-middleware": "^4.3.0",
+    "redux-thunk": "^2.2.0",
+    "superagent": "^3.5.2",
     "type-to-reducer": "^1.0.3",
     "webpack": "^3.0.0"
   },
   "devDependencies": {
+    "babel-jest": "^20.0.3",
     "express": "^4.15.3",
+    "jest": "^20.0.4",
+    "nock": "^9.0.13",
+    "redux-mock-store": "^1.2.3",
+    "regenerator-runtime": "^0.10.5",
     "webpack-dev-middleware": "^1.11.0"
+  },
+  "jest": {
+    "moduleDirectories": [
+      "node_modules",
+      "src"
+    ]
   }
 }

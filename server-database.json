@@ -1,0 +1,7 @@
+{
+  "sections": [
+    { "id": "cargo-isa", "name": "Cargo ISA" },
+    { "id": "usa-cote-est", "name": "USA (côte est)" },
+    { "id": "montreal", "name": "Montréal" }
+  ]
+}
