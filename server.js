@@ -27,6 +27,10 @@ app.get('/api/sections', (req, res) => {
   });
 });
 
+app.get('*', (req, res) => {
+  res.sendFile(__dirname + '/www/index.html');
+});
+
 const server = app.listen(5000, function() {
   const host = server.address().address;
   const port = server.address().port;

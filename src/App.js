@@ -1,23 +1,21 @@
-import AppBar from 'material-ui/AppBar';
-import IconButton from 'material-ui/IconButton';
-import NavigationChevronLeft from 'material-ui/svg-icons/navigation/chevron-left';
-import NavigationChevronRight from 'material-ui/svg-icons/navigation/chevron-right';
-import NavigationMenu from 'material-ui/svg-icons/navigation/menu';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import React from 'react';
+
+import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
+
+import SectionsIndex from './SectionsIndex';
+import Section from './Section';
 
 export const App = () => (
   <MuiThemeProvider>
-    <AppBar
-      title="Accueil"
-      iconElementLeft={<div>
-        <IconButton iconStyle={{ color: 'white' }}><NavigationMenu /></IconButton>
-        <IconButton iconStyle={{ color: 'white' }}><NavigationChevronLeft /></IconButton>
-      </div>}
-      iconElementRight={<IconButton><NavigationChevronRight /></IconButton>}
-    />
+    <Router>
+      <div>
+        <Route exact={true} path="/" component={SectionsIndex} />
+        <Route path="/s/:sectionName" render={({ match: { params }}) => <Section sectionId={params.sectionName} />} />
+      </div>
+    </Router>
   </MuiThemeProvider>
 );
 

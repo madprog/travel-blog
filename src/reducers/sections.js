@@ -51,4 +51,15 @@ export const reducer = typeToReducer({
   },
 }, initialState);
 
+export const getSections = (state) => Object.keys(state.entities.sections)
+  .reduce((ret, id) => {
+    switch (id) {
+      case '_loading':
+        return ret;
+
+      default:
+        return ret.concat(state.entities.sections[id]);
+    }
+  }, []);
+
 export default reducer;
