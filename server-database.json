@@ -3,5 +3,16 @@
     { "id": "cargo-isa", "name": "Cargo ISA" },
     { "id": "usa-cote-est", "name": "USA (côte est)" },
     { "id": "montreal", "name": "Montréal" }
+  ],
+  "articles": [
+    { "id": "bienvenue", "section": "cargo-isa", "name": "Bienvenue à bord!" },
+    { "id": "prologue", "section": "cargo-isa", "name": "Prologue" },
+    { "id": "owner-cabin", "section": "cargo-isa", "name": "The owner cabin" },
+    { "id": "cleveland", "section": "usa-cote-est", "name": "Cleveland" },
+    { "id": "erie", "section": "usa-cote-est", "name": "Érié" },
+    { "id": "niagara-falls", "section": "usa-cote-est", "name": "Niagara Falls" },
+    { "id": "airbnb", "section": "montreal", "name": "Airbnb d'arrivée" },
+    { "id": "couchsurfing", "section": "montreal", "name": "Couchsurfing rue d'Orléans" },
+    { "id": "h1w3c6", "section": "montreal", "name": "H1W3C6" }
   ]
 }

@@ -23,7 +23,9 @@ app.use(webpackDevMiddleware(compiler, {
 
 app.get('/api/sections', (req, res) => {
   res.json({
-    sections: database.sections,
+    sections: database.sections.map(s => Object.assign({}, s, {
+      articles: database.articles.filter(a => a.section == s.id),
+    })),
   });
 });
 

@@ -1,6 +1,8 @@
+import { normalize } from 'normalizr';
 import typeToReducer from 'type-to-reducer';
 
 import * as http from '../utils/http';
+import * as schemas from '../schemas';
 
 const NAME = 'canada_sections';
 
@@ -12,6 +14,7 @@ export const retrieveSections = () => dispatch => dispatch({
 
 const initialState = {
   entities: {
+    articles: {},
     sections: {},
   },
 };
@@ -28,16 +31,20 @@ export const reducer = typeToReducer({
         },
       },
     }),
-    FULFILLED: (state, action) => ({
-      ...state,
-      entities: {
-        ...state.entities,
-        sections: {
-          _loading: false,
-          ...action.payload.sections.reduce((a, s) => ({...a, [s.id]: s}), {}),
+    FULFILLED: (state, action) => {
+      const normalized = normalize(action.payload.sections, [schemas.section]).entities;
+      return ({
+        ...state,
+        entities: {
+          ...state.entities,
+          ...normalized,
+          sections: {
+            _loading: false,
+            ...normalized.sections,
+          },
         },
-      },
-    }),
+      });
+    },
     REJECTED: (state) => ({
       ...state,
       entities: {
@@ -63,5 +70,22 @@ export const getSections = (state) => Object.keys(state.entities.sections)
   }, []);
 
 export const getSection = (state, sectionId) => state.entities.sections[sectionId];
+
+export const getArticles = (state, sectionId) => Object.keys(state.entities.articles)
+  .reduce((ret, id) => {
+    switch (id) {
+      case '_loading':
+        return ret;
+
+      default:
+        const article = state.entities.articles[id];
+
+        if (sectionId !== undefined && article.section !== sectionId) {
+          return ret;
+        }
+
+        return ret.concat(article);
+    }
+  }, []);
 
 export default reducer;
