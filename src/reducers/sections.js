@@ -62,4 +62,6 @@ export const getSections = (state) => Object.keys(state.entities.sections)
     }
   }, []);
 
+export const getSection = (state, sectionId) => state.entities.sections[sectionId];
+
 export default reducer;

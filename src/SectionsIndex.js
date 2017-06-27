@@ -1,7 +1,7 @@
-import { withRouter } from 'react-router'
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import React from 'react';
+import { withRouter } from 'react-router'
 
 import Chip from 'material-ui/Chip';
 
