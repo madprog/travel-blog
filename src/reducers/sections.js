@@ -16,7 +16,7 @@ const initialState = {
   },
 };
 
-export default const reducer = typeToReducer({
+export const reducer = typeToReducer({
   [RETRIEVE_SECTIONS]: {
     PENDING: (state) => ({
       ...state,
@@ -50,3 +50,5 @@ export default const reducer = typeToReducer({
     }),
   },
 }, initialState);
+
+export default reducer;

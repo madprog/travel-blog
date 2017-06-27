@@ -1,4 +1,5 @@
 import { applyMiddleware, compose, createStore } from 'redux';
+import injectTapEventPlugin from 'react-tap-event-plugin';
 import promiseMiddleware from 'redux-promise-middleware';
 import { Provider } from 'react-redux';
 import React from 'react';
@@ -16,6 +17,7 @@ const store = createStore(reducer, composeEnhancers(applyMiddleware(
   promiseMiddleware(),
 )));
 
+injectTapEventPlugin(); // Needed for onTouchTap
 store.dispatch(sections.retrieveSections());
 
 document.addEventListener('DOMContentLoaded', () =>
