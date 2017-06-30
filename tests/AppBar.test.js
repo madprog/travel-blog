@@ -3,14 +3,14 @@ import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import React from 'react';
 import { shallow, ShallowWrapper } from 'enzyme';
 
-import ConnectedApp, { App } from 'App';
+import _AppBar from 'AppBar';
 
 const setup = (props={}) => {
   const context = {
     muiTheme: getMuiTheme(),
   };
 
-  const enzymeWrapper = shallow(<App {...props} />, context);
+  const enzymeWrapper = shallow(<_AppBar {...props} />, context);
 
   return {
     context,
@@ -20,10 +20,11 @@ const setup = (props={}) => {
 };
 
 describe('Components', () => {
-  describe('App', () => {
-    it('should render self and subcomponents', () => {
+  describe('AppBar', () => {
+    xit('should render self and subcomponents', () => {
       const { context, enzymeWrapper } = setup();
 
+      console.log(enzymeWrapper.debug());
       const appBars = enzymeWrapper.find(AppBar);
       expect(appBars.length).toBe(1);
 

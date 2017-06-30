@@ -6,13 +6,12 @@ import { withRouter } from 'react-router'
 import Chip from 'material-ui/Chip';
 
 import AppBar from './AppBar';
+import * as articles from './reducers/articles';
 import * as sections from './reducers/sections';
 
 const Section = ({ articles, history, section }) => (
   <div>
-    <AppBar
-      title={section.name}
-    />
+    <AppBar />
     <div style={{
       display: 'flex',
       flexWrap: 'wrap',
@@ -34,7 +33,7 @@ Section.defaultProps = {
 };
 
 const mapStateToProps = (state, { sectionId }) => ({
-  articles: sections.getArticles(state, sectionId),
+  articles: articles.getArticlesOfSection(state, sectionId),
   section: sections.getSection(state, sectionId),
 });
 

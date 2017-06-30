@@ -13,79 +13,42 @@ export const retrieveSections = () => dispatch => dispatch({
 });
 
 const initialState = {
+  book: [],
   entities: {
     articles: {},
     sections: {},
   },
+  loading: false,
 };
 
 export const reducer = typeToReducer({
   [RETRIEVE_SECTIONS]: {
     PENDING: (state) => ({
       ...state,
-      entities: {
-        ...state.entities,
-        sections: {
-          ...state.entities.sections,
-          _loading: true,
-        },
-      },
+      loading: true,
     }),
     FULFILLED: (state, action) => {
-      const normalized = normalize(action.payload.sections, [schemas.section]).entities;
+      const normalized = normalize(action.payload.sections, [schemas.section]);
       return ({
         ...state,
+        book: normalized.result,
         entities: {
           ...state.entities,
-          ...normalized,
-          sections: {
-            _loading: false,
-            ...normalized.sections,
-          },
+          ...normalized.entities,
         },
+        loading: false,
       });
     },
     REJECTED: (state) => ({
       ...state,
-      entities: {
-        ...state.entities,
-        sections: {
-          ...state.entities.sections,
-          _loading: false,
-        },
-      },
+      loading: false,
     }),
   },
 }, initialState);
 
-export const getSections = (state) => Object.keys(state.entities.sections)
-  .reduce((ret, id) => {
-    switch (id) {
-      case '_loading':
-        return ret;
-
-      default:
-        return ret.concat(state.entities.sections[id]);
-    }
-  }, []);
-
 export const getSection = (state, sectionId) => state.entities.sections[sectionId];
 
-export const getArticles = (state, sectionId) => Object.keys(state.entities.articles)
-  .reduce((ret, id) => {
-    switch (id) {
-      case '_loading':
-        return ret;
-
-      default:
-        const article = state.entities.articles[id];
-
-        if (sectionId !== undefined && article.section !== sectionId) {
-          return ret;
-        }
-
-        return ret.concat(article);
-    }
-  }, []);
+export const getSections = (state) => state.book
+  .reduce((ret, id) => ret.concat(state.entities.sections[id]), []);
 
 export default reducer;

@@ -65,11 +65,12 @@ describe('Reducers', () => {
         type: `${sections.RETRIEVE_SECTIONS}_PENDING`
       }))
         .toEqual({
+          book: [],
           entities: {
-            sections: {
-              _loading: true,
-            },
+            articles: {},
+            sections: {},
           },
+          loading: true,
         });
     });
 
@@ -85,14 +86,16 @@ describe('Reducers', () => {
         },
       }))
         .toEqual({
+          book: [42, 1337, 'graal'],
           entities: {
+            articles: {},
             sections: {
-              _loading: false,
               42: { id: 42, blah: 1234 },
               1337: { id: 1337, foo: 'bar' },
               graal: { id: 'graal', blectre: 'python' },
             },
           },
+          loading: false,
         });
     });
 
@@ -106,12 +109,50 @@ describe('Reducers', () => {
         }),
       }))
         .toEqual({
+          book: [],
           entities: {
-            sections: {
-              _loading: false,
-            },
+            articles: {},
+            sections: {},
           },
+          loading: false,
         });
+    });
+  });
+});
+
+describe('Helpers', () => {
+  const state = {
+    entities: {
+      sections: {
+        id1: { id: 'id1' },
+        id2: { id: 'id2' },
+        id3: { id: 'id3', data: 'random' },
+      },
+    },
+  };
+
+  describe('getSection', () => {
+    it('should return the section having this id', () => {
+      expect(sections.getSection(state, 'id1')).toEqual({ id: 'id1' });
+      expect(sections.getSection(state, 'id2')).toEqual({ id: 'id2' });
+      expect(sections.getSection(state, 'id3')).toEqual({ id: 'id3', data: 'random' });
+    });
+
+    it('should return undefined if no section having this id is found', () => {
+      expect(sections.getSection(state, 'id4')).toBeUndefined();
+    });
+  });
+
+  describe('getSections', () => {
+    it('should return the sections according to book', () => {
+      expect(sections.getSections({ ...state, book: ['id1', 'id2', 'id3'] }))
+        .toEqual([{ id: 'id1' }, { id: 'id2' }, { id: 'id3', data: 'random' }]);
+
+      expect(sections.getSections({ ...state, book: ['id3', 'id1', 'id2'] }))
+        .toEqual([{ id: 'id3', data: 'random' }, { id: 'id1' }, { id: 'id2' }]);
+
+      expect(sections.getSections({ ...state, book: ['id1', 'id2', 'id3', 'id1', 'id2'] }))
+        .toEqual([{ id: 'id1' }, { id: 'id2' }, { id: 'id3', data: 'random' }, { id: 'id1' }, { id: 'id2' }]);
     });
   });
 });

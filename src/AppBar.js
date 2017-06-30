@@ -1,4 +1,5 @@
 import { compose } from 'redux';
+import { connect } from 'react-redux';
 import React from 'react';
 import { withRouter } from 'react-router'
 
@@ -8,7 +9,9 @@ import NavigationChevronLeft from 'material-ui/svg-icons/navigation/chevron-left
 import NavigationChevronRight from 'material-ui/svg-icons/navigation/chevron-right';
 import ActionHome from 'material-ui/svg-icons/action/home';
 
-const _AppBar = ({ history, next, previous, title }) => (
+import * as navigation from './reducers/navigation';
+
+const _AppBar = ({ history, nextPage, previousPage, title }) => (
   <AppBar
     title={title}
     iconElementLeft={
@@ -21,8 +24,8 @@ const _AppBar = ({ history, next, previous, title }) => (
         </IconButton>
         <IconButton
           iconStyle={{ color: 'white' }}
-          disabled={previous === undefined}
-          onTouchTap={previous}
+          disabled={previousPage === undefined}
+          onTouchTap={() => previousPage && history.push(previousPage)}
         >
           <NavigationChevronLeft />
         </IconButton>
@@ -31,8 +34,8 @@ const _AppBar = ({ history, next, previous, title }) => (
     iconElementRight={
       <IconButton
         iconStyle={{ color: 'white' }}
-        disabled={next === undefined}
-        onTouchTap={next}
+        disabled={nextPage === undefined}
+          onTouchTap={() => nextPage && history.push(nextPage)}
       >
         <NavigationChevronRight />
       </IconButton>
@@ -40,6 +43,13 @@ const _AppBar = ({ history, next, previous, title }) => (
   />
 );
 
+const mapStateToProps = (state, { location: { pathname }, title }) => ({
+  title: title || navigation.getTitle(state, pathname),
+  nextPage: navigation.getNextPage(state, pathname),
+  previousPage: navigation.getPreviousPage(state, pathname),
+});
+
 export default compose(
-  withRouter
+  withRouter,
+  connect(mapStateToProps),
 )(_AppBar);
