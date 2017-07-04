@@ -2,6 +2,7 @@ const path = require('path');
 
 module.exports = {
   context: path.join(__dirname, 'src'),
+  devtool: 'source-map',
   entry: [
     './main.js',
   ],

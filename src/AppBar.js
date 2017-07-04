@@ -13,6 +13,7 @@ import * as navigation from './reducers/navigation';
 
 const _AppBar = ({ history, nextPage, previousPage, title }) => (
   <AppBar
+    className="app-bar"
     title={title}
     iconElementLeft={
       <div>

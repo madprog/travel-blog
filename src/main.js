@@ -10,7 +10,7 @@ import App from './App';
 import reducer from './reducers';
 import * as sections from './reducers/sections';
 
-const composeEnhancers = __REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(reducer, composeEnhancers(applyMiddleware(
   thunkMiddleware,

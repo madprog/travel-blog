@@ -9,7 +9,7 @@ import AppBar from './AppBar';
 import * as sections from './reducers/sections';
 
 const SectionsIndex = ({ history, sections }) => (
-  <div>
+  <div className="sections-index">
     <AppBar
       next={sections && sections.length > 0 ? () => history.push(`/s/${sections[0].id}`) : undefined}
       title="Index of sections"

@@ -1,0 +1,83 @@
+body {
+  margin: 0;
+  padding: 0;
+}
+
+#mount {
+}
+
+.app {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+}
+
+.app-bar {
+  flex-shrink: 0;
+}
+
+.article {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-shrink: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.article>.pages {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  flex-shrink: 1;
+}
+
+.article>.pages>.swipeable-views {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-shrink: 1;
+  align-self: stretch;
+}
+
+.article>.pages>.swipeable-views>.react-swipeable-view-container {
+  flex-grow: 1;
+  flex-shrink: 0;
+  height: 100%;
+  width: 100%;
+}
+
+.page-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-shrink: 0;
+  align-items: center;
+  height: 100%;
+  justify-content: center;
+  overflow: hidden;
+  width: 100%;
+}
+
+.page-wrapper>.paper {
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-shrink: 0;
+}
+
+.section>.chips {
+  display: flex;
+  flexWrap: wrap;
+}
+
+.sections-index {
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  flex-shrink: 0;
+}

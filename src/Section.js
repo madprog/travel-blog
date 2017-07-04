@@ -10,12 +10,9 @@ import * as articles from './reducers/articles';
 import * as sections from './reducers/sections';
 
 const Section = ({ articles, history, section }) => (
-  <div>
+  <div className="section">
     <AppBar />
-    <div style={{
-      display: 'flex',
-      flexWrap: 'wrap',
-    }}>
+    <div className="chips">
       {articles.map(article => (
         <Chip
           key={article.id}

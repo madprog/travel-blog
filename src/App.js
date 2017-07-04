@@ -12,10 +12,10 @@ import Section from './Section';
 export const App = () => (
   <MuiThemeProvider>
     <Router>
-      <div>
+      <div className="app">
         <Route exact={true} path="/" component={SectionsIndex} />
-        <Route path="/s/:sectionName" render={({ match: { params }}) => <Section sectionId={params.sectionName} />} />
-        <Route path="/a/:articleName" render={({ match: { params }}) => <Article articleId={params.articleName} />} />
+        <Route path="/s/:sectionId" render={({ match: { params }}) => <Section sectionId={params.sectionId} />} />
+        <Route path="/a/:articleId" render={({ match: { params }}) => <Article articleId={params.articleId} />} />
       </div>
     </Router>
   </MuiThemeProvider>
