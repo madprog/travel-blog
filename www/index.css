@@ -48,6 +48,28 @@ body {
   width: 100%;
 }
 
+.page-template {
+  display: flex;
+  flex-basis: 0;
+  flex-grow: 1;
+  flex-shrink: 0;
+  align-items: stretch;
+}
+
+.page-template.cell {
+  display: block;
+  overflow: hidden;
+  padding: 0.5em 1em;
+}
+
+.page-template.column {
+  flex-direction: column;
+}
+
+.page-template.row {
+  flex-direction: row;
+}
+
 .page-wrapper {
   display: flex;
   flex-direction: column;
@@ -61,6 +83,8 @@ body {
 }
 
 .page-wrapper>.paper {
+  display: flex;
+  align-items: stretch;
 }
 
 .section {

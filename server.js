@@ -1,8 +1,8 @@
 const express = require('express');
+const fs = require('fs');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpack = require('webpack');
 
-const database = require('./server-database.json');
 const webpackConfig = require('./webpack.config.js');
 
 const app = express();
@@ -22,11 +22,26 @@ app.use(webpackDevMiddleware(compiler, {
 }));
 
 app.get('/api/sections', (req, res) => {
+  const database = JSON.parse(fs.readFileSync('./server-database.json', 'utf8'));
+
   res.json({
     sections: database.sections.map(s => Object.assign({}, s, {
       articles: database.articles.filter(a => a.section == s.id).map(a => Object.assign({}, a, {
-        pages: database.pages.filter(p => p.article == a.id),
+        pages: database.pages.filter(p => p.article == a.id).map(p => Object.assign({}, p, {
+          contents: JSON.parse(p.contents),
+          template: JSON.parse(p.template),
+        })),
       })),
+    })),
+  });
+});
+
+app.get('/api/templates', (req, res) => {
+  const database = JSON.parse(fs.readFileSync('./server-database.json', 'utf8'));
+
+  res.json({
+    templates: database.templates.map(t => Object.assign({}, t, {
+      spec: JSON.parse(t.spec),
     })),
   });
 });

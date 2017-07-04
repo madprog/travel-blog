@@ -7,6 +7,7 @@ import { withRouter } from 'react-router'
 import Paper from 'material-ui/Paper';
 
 import AppBar from './AppBar';
+import PageTemplate from './PageTemplate';
 import * as pages from './reducers/pages';
 
 const Page = ({ height, page, width }) => (
@@ -18,9 +19,7 @@ const Page = ({ height, page, width }) => (
     }}
     zDepth={3}
   >
-    <div className="contents">
-      contents: {page.content}<br/>
-    </div>
+    <PageTemplate contents={page.contents} template={page.template} />
   </Paper>
 );
 

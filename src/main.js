@@ -9,6 +9,7 @@ import thunkMiddleware from 'redux-thunk';
 import App from './App';
 import reducer from './reducers';
 import * as sections from './reducers/sections';
+import * as templates from './reducers/templates';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
@@ -19,6 +20,7 @@ const store = createStore(reducer, composeEnhancers(applyMiddleware(
 
 injectTapEventPlugin(); // Needed for onTouchTap
 store.dispatch(sections.retrieveSections());
+store.dispatch(templates.retrieveTemplates());
 
 document.addEventListener('DOMContentLoaded', () =>
   ReactDOM.render(

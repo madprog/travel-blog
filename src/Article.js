@@ -62,13 +62,13 @@ class Article extends React.Component {
     return (
       <div className="article">
         <AppBar />
-        <div className="pages">
-          <RaisedButton
-            icon={<NavigationChevronLeft />}
-            onTouchTap={this.onPreviousPage}
-            style={{ minWidth: 36 }}
-          />
-          {article.pages.length > 0 ? (
+        {article.pages.length > 0 ? (
+          <div className="pages">
+            <RaisedButton
+              icon={<NavigationChevronLeft />}
+              onTouchTap={this.onPreviousPage}
+              style={{ minWidth: 36 }}
+            />
             <VirtualSwipeableViews
               className="swipeable-views"
               index={index}
@@ -80,15 +80,15 @@ class Article extends React.Component {
                 flexDirection: 'column',
               }}
             />
-          ) : (
-            <div>No page in this article</div>
-          )}
-          <RaisedButton
-            icon={<NavigationChevronRight />}
-            onTouchTap={this.onNextPage}
-            style={{ minWidth: 36 }}
-          />
-        </div>
+            <RaisedButton
+              icon={<NavigationChevronRight />}
+              onTouchTap={this.onNextPage}
+              style={{ minWidth: 36 }}
+            />
+          </div>
+        ) : (
+          <div className="pages">No page in this article</div>
+        )}
       </div>
     );
   }

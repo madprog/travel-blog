@@ -7,3 +7,4 @@ export const article = new schema.Entity('articles', {
 export const section = new schema.Entity('sections', {
   articles: [article],
 });
+export const template = new schema.Entity('templates');

@@ -30,6 +30,7 @@
     "redux": "^3.7.0",
     "redux-promise-middleware": "^4.3.0",
     "redux-thunk": "^2.2.0",
+    "remarkable": "^1.7.1",
     "superagent": "^3.5.2",
     "type-to-reducer": "^1.0.3",
     "webpack": "^3.0.0"
