@@ -22,5 +22,5 @@ export const App = () => (
 );
 
 export default compose(
-  connect()
+  connect(),
 )(App);

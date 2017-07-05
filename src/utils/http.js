@@ -11,5 +11,5 @@ export const get = (url) => new Promise(
           reject(response);
         }
       });
-  }
+  },
 );

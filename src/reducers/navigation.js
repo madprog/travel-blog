@@ -1,6 +1,3 @@
-import * as articles from './articles';
-import * as sections from './sections';
-
 export const getTitle = (state, currentPath) => {
   const section_match = currentPath.match('^/s/([^/]+)$');
   const article_match = currentPath.match('^/a/([^/]+)$');

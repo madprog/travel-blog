@@ -22,11 +22,11 @@ injectTapEventPlugin(); // Needed for onTouchTap
 store.dispatch(sections.retrieveSections());
 store.dispatch(templates.retrieveTemplates());
 
-document.addEventListener('DOMContentLoaded', () =>
+document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
     <Provider store={store}>
       <App />
     </Provider>,
-    document.getElementById('mount')
-  )
-);
+    document.getElementById('mount'),
+  );
+});

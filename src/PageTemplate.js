@@ -66,7 +66,7 @@ const mapStateToProps = (state, { template, templateId }) => ({
 });
 
 const ConnectedPageTemplate = compose(
-  connect(mapStateToProps)
+  connect(mapStateToProps),
 )(PageTemplate);
 
 export default ConnectedPageTemplate;

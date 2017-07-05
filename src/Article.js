@@ -1,23 +1,34 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import React from 'react';
 import SwipeableViews from 'react-swipeable-views';
 import { virtualize } from 'react-swipeable-views-utils';
-import { withRouter } from 'react-router'
+import { withRouter } from 'react-router';
 
 import RaisedButton from 'material-ui/RaisedButton';
 import NavigationChevronLeft from 'material-ui/svg-icons/navigation/chevron-left';
 import NavigationChevronRight from 'material-ui/svg-icons/navigation/chevron-right';
 
 import AppBar from './AppBar';
+import * as CanadaPropTypes from './PropTypes';
 import Page from './Page';
 import * as articles from './reducers/articles';
 
 const VirtualSwipeableViews = virtualize(SwipeableViews);
 
-const slideRenderer = article => ({ key, index }) => (
-  <Page key={key} pageId={article.pages[index]} ratio={297/210} />
-);
+const slideRenderer = article => {
+  const SlideRenderer = ({ key, index }) => (
+    <Page key={key} pageId={article.pages[index]} ratio={297/210} />
+  );
+
+  SlideRenderer.propTypes = {
+    key: PropTypes.string.isRequired,
+    index: PropTypes.number.isRequired,
+  };
+
+  return SlideRenderer;
+};
 
 class Article extends React.Component {
   constructor(props) {
@@ -30,6 +41,15 @@ class Article extends React.Component {
     this.onChangeIndex = this.onChangeIndex.bind(this);
     this.onNextPage = this.onNextPage.bind(this);
     this.onPreviousPage = this.onPreviousPage.bind(this);
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.articleId !== this.props.articleId) {
+      this.setState({
+        ...this.state,
+        index: 0,
+      });
+    }
   }
 
   onChangeIndex(index) {
@@ -56,7 +76,7 @@ class Article extends React.Component {
   }
 
   render() {
-    const { history, article } = this.props;
+    const { article } = this.props;
     const { index } = this.state;
 
     return (
@@ -100,11 +120,16 @@ Article.defaultProps = {
   },
 };
 
+Article.propTypes = {
+  article: CanadaPropTypes.article.isRequired,
+  articleId: PropTypes.string.isRequired,
+};
+
 const mapStateToProps = (state, { articleId }) => ({
   article: articles.getArticle(state, articleId),
 });
 
 export default compose(
   withRouter,
-  connect(mapStateToProps)
+  connect(mapStateToProps),
 )(Article);

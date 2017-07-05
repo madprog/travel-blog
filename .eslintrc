@@ -1,0 +1,57 @@
+{
+  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true,
+      "experimentalObjectRestSpread": true
+    },
+    "ecmaVersion": 8,
+    "sourceType": "module"
+  },
+  "plugins": [
+    "react"
+  ],
+  "settings": {
+    "react": {
+      "pragma": "React",
+      "version": "15.0"
+    }
+  },
+  "rules": {
+    "block-scoped-var": "error",
+    "curly": "error",
+    "no-extend-native": "error",
+    "no-undef": "error",
+    "no-unused-vars": "error",
+    "no-use-before-define": "error",
+    "semi": ["error", "always"],
+
+    "array-bracket-spacing": [
+      "error", "never"
+    ],
+    "quotes": ["error", "single", {"allowTemplateLiterals": true}],
+    "jsx-quotes": ["error", "prefer-double"],
+    "comma-spacing": [
+      "error",
+      {
+        "before": false,
+        "after": true
+      }
+    ],
+    "comma-style": ["error", "last"],
+    "comma-dangle": ["error", {
+      "arrays": "always-multiline",
+      "objects": "always-multiline",
+      "imports": "always-multiline",
+      "exports": "always-multiline",
+      "functions": "always-multiline"
+    }]
+  },
+  "globals": {
+    "process": false
+  },
+  "env": {
+    "browser": true,
+    "es6": true
+  }
+}

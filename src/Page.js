@@ -1,12 +1,11 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import React from 'react';
-import ReactDOM from 'react-dom';
-import { withRouter } from 'react-router'
 
 import Paper from 'material-ui/Paper';
 
-import AppBar from './AppBar';
+import * as CanadaPropTypes from './PropTypes';
 import PageTemplate from './PageTemplate';
 import * as pages from './reducers/pages';
 
@@ -29,12 +28,18 @@ Page.defaultProps = {
   width: '100%',
 };
 
+Page.propTypes = {
+  height: PropTypes.number.isRequired,
+  page: CanadaPropTypes.page.isRequired,
+  width: PropTypes.number.isRequired,
+};
+
 const mapStateToProps = (state, { pageId }) => ({
   page: pages.getPage(state, pageId),
 });
 
 const ConnectedPage = compose(
-  connect(mapStateToProps)
+  connect(mapStateToProps),
 )(Page);
 
 class PageWrapper extends React.Component {
@@ -67,7 +72,7 @@ class PageWrapper extends React.Component {
   }
 
   render() {
-    const { page, ratio } = this.props;
+    const { ratio } = this.props;
     const { wrapper_height, wrapper_width } = this.state;
     const width_from_height = wrapper_height * ratio;
     const height_from_width = wrapper_width / ratio;
@@ -88,5 +93,10 @@ class PageWrapper extends React.Component {
     );
   }
 }
+
+PageWrapper.propTypes = {
+  pageId: PropTypes.string.isRequired,
+  ratio: PropTypes.number.isRequired,
+};
 
 export default PageWrapper;

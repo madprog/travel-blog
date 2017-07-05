@@ -15,7 +15,7 @@
     "babel-core": "^6.25.0",
     "babel-loader": "^7.1.0",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
-    "babel-preset-latest": "^6.24.1",
+    "babel-preset-env": "^1.6.0",
     "babel-preset-react": "^6.24.1",
     "material-ui": "^0.18.4",
     "normalizr": "^3.2.3",
@@ -38,6 +38,9 @@
   "devDependencies": {
     "babel-jest": "^20.0.3",
     "enzyme": "^2.9.1",
+    "eslint": "^4.1.1",
+    "eslint-loader": "^1.8.0",
+    "eslint-plugin-react": "^7.1.0",
     "express": "^4.15.3",
     "jest": "^20.0.4",
     "nock": "^9.0.13",

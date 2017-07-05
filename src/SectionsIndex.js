@@ -1,7 +1,8 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import React from 'react';
-import { withRouter } from 'react-router'
+import { withRouter } from 'react-router';
 
 import Chip from 'material-ui/Chip';
 
@@ -34,11 +35,18 @@ SectionsIndex.defaultProps = {
   sections: [],
 };
 
+SectionsIndex.propTypes = {
+  sections: PropTypes.arrayOf(PropTypes.object).isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }).isRequired,
+};
+
 const mapStateToProps = (state) => ({
   sections: sections.getSections(state),
 });
 
 export default compose(
   withRouter,
-  connect(mapStateToProps)
+  connect(mapStateToProps),
 )(SectionsIndex);

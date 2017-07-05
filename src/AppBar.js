@@ -1,7 +1,8 @@
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import React from 'react';
-import { withRouter } from 'react-router'
+import { withRouter } from 'react-router';
 
 import AppBar from 'material-ui/AppBar';
 import IconButton from 'material-ui/IconButton';
@@ -43,6 +44,15 @@ const _AppBar = ({ history, nextPage, previousPage, title }) => (
     }
   />
 );
+
+_AppBar.propTypes = {
+  history: PropTypes.shape({
+    push: PropTypes.func.isRequired,
+  }),
+  nextPage: PropTypes.string,
+  previousPage: PropTypes.string,
+  title: PropTypes.string.isRequired,
+};
 
 const mapStateToProps = (state, { location: { pathname }, title }) => ({
   title: title || navigation.getTitle(state, pathname),
