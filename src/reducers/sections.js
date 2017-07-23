@@ -23,11 +23,27 @@ export const deleteSection = (sectionId) => dispatch => dispatch({
     .del(`/api/sections/${sectionId}`),
 });
 
+export const DESTROY_SECTION = `${NAME}/DESTROY_SECTION`;
+export const destroySection = (sectionId) => dispatch => dispatch({
+  type: DESTROY_SECTION,
+  meta: { sectionId },
+  payload: request
+    .del(`/api/sections/${sectionId}?destroy=true`),
+});
+
 export const RETRIEVE_SECTIONS = `${NAME}/RETRIEVE_SECTIONS`;
 export const retrieveSections = () => dispatch => dispatch({
   type: RETRIEVE_SECTIONS,
   payload: request
     .get('/api/sections'),
+});
+
+export const UNDELETE_SECTION = `${NAME}/UNDELETE_SECTION`;
+export const undeleteSection = (sectionId) => dispatch => dispatch({
+  type: UNDELETE_SECTION,
+  meta: { sectionId },
+  payload: request
+    .patch(`/api/sections/${sectionId}`, { deleted: false }),
 });
 
 const initialState = {
@@ -65,7 +81,9 @@ const receiveBookReducer = {
 export const reducer = typeToReducer({
   [CREATE_SECTION]: receiveBookReducer,
   [DELETE_SECTION]: receiveBookReducer,
+  [DESTROY_SECTION]: receiveBookReducer,
   [RETRIEVE_SECTIONS]: receiveBookReducer,
+  [UNDELETE_SECTION]: receiveBookReducer,
 }, initialState);
 
 export const getSection = (state, sectionId) => state.entities.sections[sectionId];

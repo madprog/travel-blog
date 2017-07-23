@@ -10,17 +10,25 @@ import AppBar from './AppBar';
 import CreateSectionButton from './CreateSectionButton';
 import * as sections from './reducers/sections';
 
-const SectionsIndex = ({ history, createSection, deleteSection, openSection, sections }) => (
+const SectionsIndex = ({
+  history,
+  createSection,
+  deleteSection,
+  destroySection,
+  openSection,
+  sections,
+  undeleteSection,
+}) => (
   <div className="sections-index">
     <AppBar
       next={sections && sections.length > 0 ? () => history.push(`/s/${sections[0].id}`) : undefined}
-      title="Index of sections"
+      title="Index des sections"
     />
     <div style={{
       display: 'flex',
       flexWrap: 'wrap',
     }}>
-      {sections.map(section => (
+      {sections.filter(s => !s.deleted).map(section => (
         <Chip
           key={section.id}
           onTouchTap={openSection(section.id)}
@@ -33,6 +41,28 @@ const SectionsIndex = ({ history, createSection, deleteSection, openSection, sec
         <CreateSectionButton createSection={createSection} />
       )}
     </div>
+    {process.env.ENABLE_EDITION && sections.some(s => s.deleted) && (
+      <div>
+        <p>Sections supprimées (cliquer pour restaurer, supprimer pour détruire)&nbsp;:</p>
+        <div style={{
+          display: 'flex',
+          flexWrap: 'wrap',
+        }}>
+          {sections.filter(s => s.deleted).map(section => (
+            <Chip
+              key={section.id}
+              onTouchTap={undeleteSection(section.id)}
+              onRequestDelete={destroySection(section.id)}
+            >
+              {section.name}
+            </Chip>
+          ))}
+          {process.env.ENABLE_EDITION && (
+            <CreateSectionButton createSection={createSection} />
+          )}
+        </div>
+      </div>
+    )}
   </div>
 );
 
@@ -43,11 +73,13 @@ SectionsIndex.defaultProps = {
 SectionsIndex.propTypes = {
   createSection: PropTypes.func.isRequired,
   deleteSection: PropTypes.func.isRequired,
+  destroySection: PropTypes.func.isRequired,
   openSection: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
   sections: PropTypes.arrayOf(PropTypes.object).isRequired,
+  undeleteSection: PropTypes.func.isRequired,
 };
 
 const mapStateToProps = (state) => ({
@@ -57,7 +89,9 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch, { history }) => ({
   createSection: () => dispatch(sections.createSection()),
   deleteSection: (sectionId) => () => dispatch(sections.deleteSection(sectionId)),
+  destroySection: (sectionId) => () => dispatch(sections.destroySection(sectionId)),
   openSection: (sectionId) => () => history.push(`/s/${sectionId}`),
+  undeleteSection: (sectionId) => () => dispatch(sections.undeleteSection(sectionId)),
 });
 
 export default compose(
