@@ -14,6 +14,13 @@ const db = {
   getOrAddCollection(name, options) {
     return db.loki.getCollection(name) || db.loki.addCollection(name, options);
   },
+  nameToId(name) {
+    return name
+      .normalize('NFD')
+      .replace(/[\u0300-\u036f]/g, '')
+      .replace(/[^a-zA-Z0-9]/g, '-')
+      .replace(/^-+|-+$/g, '');
+  },
 };
 
 module.exports.default = db;

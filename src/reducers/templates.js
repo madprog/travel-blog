@@ -1,7 +1,7 @@
 import { normalize } from 'normalizr';
+import request from 'superagent';
 import typeToReducer from 'type-to-reducer';
 
-import * as http from '../utils/http';
 import * as schemas from '../schemas';
 
 const NAME = 'canada_templates';
@@ -9,7 +9,8 @@ const NAME = 'canada_templates';
 export const RETRIEVE_TEMPLATES = `${NAME}/RETRIEVE_TEMPLATES`;
 export const retrieveTemplates = () => dispatch => dispatch({
   type: RETRIEVE_TEMPLATES,
-  payload: http.get('/api/templates'),
+  payload: request
+    .get('/api/templates'),
 });
 
 const initialState = {
@@ -26,7 +27,7 @@ export const reducer = typeToReducer({
       loading: true,
     }),
     FULFILLED: (state, action) => {
-      const normalized = normalize(action.payload.templates, [schemas.template]);
+      const normalized = normalize(action.payload.body.templates, [schemas.template]);
       return ({
         ...state,
         entities: {

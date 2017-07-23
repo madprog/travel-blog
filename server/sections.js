@@ -1,4 +1,5 @@
 const app = require('./app').default;
+const constants = require('./constants');
 const db = require('./db').default;
 
 app.get('/api/sections', (req, res) => {
@@ -10,3 +11,27 @@ app.get('/api/sections', (req, res) => {
     })),
   });
 });
+
+if (constants.ENABLE_EDITION) {
+  db.createSection = ({ name }) => {
+    const section = {
+      id: db.nameToId(name),
+      name,
+      articles: [],
+    };
+
+    db.sections.insert(section);
+
+    return section;
+  };
+
+  app.post('/api/sections', (req, res) => {
+    const section = db.createSection(req.body);
+    res
+      .status(201)
+      .set({
+        'Location': '/api/sections/' + section.id,
+      })
+      .json(section);
+  });
+}
