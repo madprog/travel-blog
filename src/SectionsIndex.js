@@ -6,8 +6,11 @@ import { withRouter } from 'react-router';
 
 import Chip from 'material-ui/Chip';
 
+import { AddChipButton } from './components/ChipButton';
+import CreateSectionForm from './CreateSectionForm';
 import AppBar from './AppBar';
-import CreateSectionButton from './CreateSectionButton';
+import ConfirmDeleteChip from './components/ConfirmDeleteChip';
+import DialogButton from './components/DialogButton';
 import * as sections from './reducers/sections';
 
 const SectionsIndex = ({
@@ -38,7 +41,13 @@ const SectionsIndex = ({
         </Chip>
       ))}
       {process.env.ENABLE_EDITION && (
-        <CreateSectionButton createSection={createSection} />
+        <DialogButton
+          button={AddChipButton}
+          dialogTitle="Créer une section"
+          form={CreateSectionForm}
+          formName="createSectionForm"
+          onSubmit={(section) => createSection(section)}
+        />
       )}
     </div>
     {process.env.ENABLE_EDITION && sections.some(s => s.deleted) && (
@@ -49,17 +58,15 @@ const SectionsIndex = ({
           flexWrap: 'wrap',
         }}>
           {sections.filter(s => s.deleted).map(section => (
-            <Chip
+            <ConfirmDeleteChip
+              notificationMessage={`La section ${section.id} va être détruite.`}
               key={section.id}
               onTouchTap={undeleteSection(section.id)}
               onRequestDelete={destroySection(section.id)}
             >
               {section.name}
-            </Chip>
+            </ConfirmDeleteChip>
           ))}
-          {process.env.ENABLE_EDITION && (
-            <CreateSectionButton createSection={createSection} />
-          )}
         </div>
       </div>
     )}
@@ -87,7 +94,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch, { history }) => ({
-  createSection: () => dispatch(sections.createSection()),
+  createSection: (section) => dispatch(sections.createSection(section)),
   deleteSection: (sectionId) => () => dispatch(sections.deleteSection(sectionId)),
   destroySection: (sectionId) => () => dispatch(sections.destroySection(sectionId)),
   openSection: (sectionId) => () => history.push(`/s/${sectionId}`),
