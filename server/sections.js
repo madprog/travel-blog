@@ -15,6 +15,7 @@ const sendBook = (req, res) => {
 app.get('/api/sections', sendBook);
 
 if (constants.ENABLE_EDITION) {
+  /* Database */
   db.createSection = ({ name }) => {
     const section = {
       id: db.nameToId(name),
@@ -45,19 +46,40 @@ if (constants.ENABLE_EDITION) {
     db.loki.save();
   };
 
+  /* Web API */
   app.patch('/api/sections/:sectionId', (req, res) => {
     db.updateSection(req.params.sectionId, req.body);
     sendBook(req, res);
   });
 
   app.post('/api/sections', (req, res) => {
-    const section = db.createSection(req.body);
-    res
-      .status(201)
-      .set({
-        'Location': '/api/sections/' + section.id,
-      });
-    sendBook(req, res);
+    try {
+      const section = db.createSection(req.body);
+      res
+        .status(201)
+        .set({
+          'Location': '/api/sections/' + section.id,
+        });
+      sendBook(req, res);
+    } catch (e) {
+      if (e.message === 'Duplicate key for property id: Section') {
+        res
+          .status(409)
+          .json({
+            validationErrors: {
+              name: 'A section with a similar name already exists',
+            },
+          });
+      } else {
+        res
+          .status(500)
+          .json({
+            validationErrors: {
+              _error: 'Unknown server error: ' + e.message,
+            }
+          });
+      }
+    }
   });
 
   app.delete('/api/sections/:sectionId', (req, res) => {

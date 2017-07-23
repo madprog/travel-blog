@@ -2,6 +2,7 @@ import { compose } from 'redux';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import React from 'react';
+import { SubmissionError } from 'redux-form';
 import { withRouter } from 'react-router';
 
 import Chip from 'material-ui/Chip';
@@ -94,7 +95,8 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispatch, { history }) => ({
-  createSection: (section) => dispatch(sections.createSection(section)),
+  createSection: (section) => dispatch(sections.createSection(section))
+    .catch(({ response }) => Promise.reject(new SubmissionError(response.body.validationErrors))),
   deleteSection: (sectionId) => () => dispatch(sections.deleteSection(sectionId)),
   destroySection: (sectionId) => () => dispatch(sections.destroySection(sectionId)),
   openSection: (sectionId) => () => history.push(`/s/${sectionId}`),

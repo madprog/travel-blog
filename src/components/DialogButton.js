@@ -28,7 +28,7 @@ class DialogButton extends React.Component {
   }
 
   handleSubmit(result) {
-    this.props.onSubmit(result).then(() => {
+    return this.props.onSubmit(result).then(() => {
       this.setState({ open: false });
     });
   }

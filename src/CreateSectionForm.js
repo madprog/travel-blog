@@ -4,13 +4,15 @@ import React from 'react';
 
 import * as fields from './components/fields';
 
-const CreateSectionForm = ({ handleSubmit, onSubmit }) => (
+const CreateSectionForm = ({ error, handleSubmit, onSubmit }) => (
   <form onSubmit={handleSubmit(onSubmit)}>
     <div><Field name="name" component={fields.textField} label="Nom" autoFocus /></div>
+    {error && (<div style={{ color: '#f44336' }}>{error}</div>)}
   </form>
 );
 
 CreateSectionForm.propTypes = {
+  error: PropTypes.string,
   handleSubmit: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired,
 };
