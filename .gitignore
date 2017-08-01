@@ -1,3 +1,7 @@
+*.egg-info
+*.pyc
+__pycache
 node_modules
+venv
 www/bundle.js
 www/bundle.js.map

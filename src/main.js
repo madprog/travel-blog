@@ -1,32 +1,47 @@
+import { ApolloProvider, ApolloClient } from 'react-apollo';
 import { applyMiddleware, compose, createStore } from 'redux';
+import { reducer as formReducer } from 'redux-form';
 import injectTapEventPlugin from 'react-tap-event-plugin';
 import promiseMiddleware from 'redux-promise-middleware';
-import { Provider } from 'react-redux';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import thunkMiddleware from 'redux-thunk';
 
 import App from './App';
-import reducer from './reducers';
-import * as sections from './reducers/sections';
-import * as templates from './reducers/templates';
+import appReducer from './reducers';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
+const client = new ApolloClient();
+const apolloReducer = client.reducer();
+
+const reducer = (state, action) => {
+  const { apollo, form, ...appState }  = {
+    apollo: undefined,
+    form: undefined,
+    ...state,
+  };
+
+  return {
+    ...appReducer(appState, action),
+    apollo: apolloReducer(apollo, action),
+    form: formReducer(form, action),
+  };
+};
+
 const store = createStore(reducer, composeEnhancers(applyMiddleware(
+  client.middleware(),
   thunkMiddleware,
   promiseMiddleware(),
 )));
 
 injectTapEventPlugin(); // Needed for onTouchTap
-store.dispatch(sections.retrieveSections());
-store.dispatch(templates.retrieveTemplates());
 
 document.addEventListener('DOMContentLoaded', () => {
   ReactDOM.render(
-    <Provider store={store}>
+    <ApolloProvider client={client} store={store}>
       <App />
-    </Provider>,
+    </ApolloProvider>,
     document.getElementById('mount'),
   );
 });
