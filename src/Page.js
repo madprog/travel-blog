@@ -7,7 +7,6 @@ import Paper from 'material-ui/Paper';
 
 import * as CanadaPropTypes from './PropTypes';
 import PageTemplate from './PageTemplate';
-import * as pages from './reducers/pages';
 
 const Page = ({ height, page, width }) => (
   <Paper
@@ -34,12 +33,8 @@ Page.propTypes = {
   width: PropTypes.number.isRequired,
 };
 
-const mapStateToProps = (state, { pageId }) => ({
-  page: pages.getPage(state, pageId),
-});
-
 const ConnectedPage = compose(
-  connect(mapStateToProps),
+  connect(undefined),
 )(Page);
 
 class PageWrapper extends React.Component {

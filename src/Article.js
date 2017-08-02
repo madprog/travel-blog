@@ -13,7 +13,6 @@ import NavigationChevronRight from 'material-ui/svg-icons/navigation/chevron-rig
 import AppBar from './AppBar';
 import * as CanadaPropTypes from './PropTypes';
 import Page from './Page';
-import * as articles from './reducers/articles';
 
 const VirtualSwipeableViews = virtualize(SwipeableViews);
 
@@ -125,11 +124,7 @@ Article.propTypes = {
   articleId: PropTypes.string.isRequired,
 };
 
-const mapStateToProps = (state, { articleId }) => ({
-  article: articles.getArticle(state, articleId),
-});
-
 export default compose(
   withRouter,
-  connect(mapStateToProps),
+  connect(undefined),
 )(Article);

@@ -7,12 +7,12 @@ import React from 'react';
 import { withRouter } from 'react-router';
 
 import Chip from 'material-ui/Chip';
+import CircularProgress from 'material-ui/CircularProgress';
 
 import { AddChipButton } from './components/ChipButton';
-import CircularProgress from 'material-ui/CircularProgress';
-import CreateSectionForm from './CreateSectionForm';
 import AppBar from './AppBar';
 import ConfirmDeleteChip from './components/ConfirmDeleteChip';
+import CreateSectionForm from './CreateSectionForm';
 import DialogButton from './components/DialogButton';
 import * as mutations from './mutations';
 import * as queries from './queries';
@@ -22,7 +22,6 @@ const SectionsIndex = ({
     book,
     loading,
   },
-  history,
   createSection,
   deleteSection,
   destroySection,
@@ -35,7 +34,7 @@ const SectionsIndex = ({
 ) : (
   <div className="sections-index">
     <AppBar
-      next={book && book.length > 0 ? () => history.push(`/s/${book[0].strId}`) : undefined}
+      next={book && book.length > 0 ? openSection(book[0]) : undefined}
       title="Index des sections"
     />
     <div style={{
@@ -70,7 +69,7 @@ const SectionsIndex = ({
         }}>
           {book.filter(s => s.deleted).map(section => (
             <ConfirmDeleteChip
-              notificationMessage={`La section ${section.id} va être détruite.`}
+              notificationMessage={`La section '${section.name}' va être détruite.`}
               key={section.id}
               onTouchTap={undeleteSection(section)}
               onRequestDelete={destroySection(section)}
@@ -89,6 +88,7 @@ SectionsIndex.propTypes = {
     loading: PropTypes.bool.isRequired,
     book: PropTypes.arrayOf(PropTypes.shape({
       id: PropTypes.string.isRequired,
+      strId: PropTypes.string.isRequired,
       name: PropTypes.string.isRequired,
       deleted: PropTypes.bool.isRequired,
     })),
@@ -96,23 +96,24 @@ SectionsIndex.propTypes = {
   createSection: PropTypes.func.isRequired,
   deleteSection: PropTypes.func.isRequired,
   destroySection: PropTypes.func.isRequired,
-  openSection: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func.isRequired,
   }).isRequired,
+  openSection: PropTypes.func.isRequired,
   undeleteSection: PropTypes.func.isRequired,
 };
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
-  createSection: (variables) => ownProps.createSection({
-    variables,
+  createSection: (section) => ownProps.createSection({
+    variables: section,
     optimisticResponse: {
       createSection: {
         __typename: 'CreateSection',
         section: {
           __typename: 'Section',
           id: -1,
-          ...variables,
+          ...section,
+          strId: section.name,
           deleted: false,
         },
       },

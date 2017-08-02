@@ -17,7 +17,7 @@ class Article(db.Model):
     str_id = Column(String, nullable=False, unique=True)
     name = Column(String, nullable=False, unique=True)
     deleted = Column(Boolean, nullable=False, default=False)
-    section_id = Column(Integer, ForeignKey('section.id'))
+    section_id = Column(Integer, ForeignKey('section.id'), nullable=False)
     section = relationship(Section, backref=backref('articles', uselist=True, cascade='delete,all'))
 
 class PageTemplate(db.Model):
@@ -34,7 +34,7 @@ class Page(db.Model):
     name = Column(String, nullable=False, unique=True)
     contents = Column(String, nullable=False)
     deleted = Column(Boolean, nullable=False, default=False)
-    article_id = Column(Integer, ForeignKey('article.id'))
+    article_id = Column(Integer, ForeignKey('article.id'), nullable=False)
     article = relationship(Article, backref=backref('pages', uselist=True, cascade='delete,all'))
-    template_id = Column(Integer, ForeignKey('page_template.id'))
+    template_id = Column(Integer, ForeignKey('page_template.id'), nullable=False)
     template = relationship(PageTemplate, backref=backref('pages', uselist=True, cascade='delete,all'))

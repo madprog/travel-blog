@@ -11,7 +11,6 @@ db = SQLAlchemy(app)
 from travel_blog.schema import schema, Section
 
 STATIC_FILES = {
-    '/': lambda: send_from_directory('../www', 'index.html'),
     '/index.css': lambda: send_from_directory('../www', 'index.css'),
     '/bundle.js': lambda: send_from_directory('../www', 'bundle.js'),
     '/bundle.js.map': lambda: send_from_directory('../www', 'bundle.js.map'),
@@ -20,6 +19,11 @@ for route, callback in STATIC_FILES.items():
     app.add_url_rule(route, route, callback)
 
 app.add_url_rule('/graphql', view_func=GraphQLView.as_view('graphql', schema=schema, graphiql=True))
+
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def index(path):
+    return send_from_directory('../www', 'index.html'),
 
 def main():
     db.create_all()
