@@ -1,4 +1,3 @@
-import re
 from graphene import Field, Int, Mutation, String
 
 from ..objects import Article
@@ -6,6 +5,7 @@ from ...models import (
     db,
     Article as ArticleModel,
 )
+from ...tools import normalize_id
 
 class CreateArticle(Mutation):
     class Input:
@@ -16,9 +16,8 @@ class CreateArticle(Mutation):
 
     @staticmethod
     def mutate(root, args, context, info):
-        str_id = re.sub(r'[^A-Za-z0-9_ -]', '', args['name']).replace(' ', '-').lower()
         article = ArticleModel(
-            str_id=str_id,
+            str_id=normalize_id(args['name']),
             **args
         )
         db.session.add(article)

@@ -1,4 +1,3 @@
-import re
 from graphene import Field, Int, Mutation, String
 
 from ..objects import Section
@@ -6,6 +5,7 @@ from ...models import (
     db,
     Section as SectionModel,
 )
+from ...tools import normalize_id
 
 class CreateSection(Mutation):
     class Input:
@@ -15,7 +15,7 @@ class CreateSection(Mutation):
 
     @staticmethod
     def mutate(root, args, context, info):
-        str_id = re.sub(r'[^A-Za-z0-9_ -]', '', args['name']).replace(' ', '-').lower()
+        str_id=normalize_id(args['name']),
         section = SectionModel(str_id=str_id, **args)
         db.session.add(section)
         db.session.commit()
